@@ -27,6 +27,6 @@ public class UserTest {
       .when().get("/users")
       .then()
        .statusCode(200)
-       .body("size()", is(0));
+       .body("size()", is(3));
   }
 }
