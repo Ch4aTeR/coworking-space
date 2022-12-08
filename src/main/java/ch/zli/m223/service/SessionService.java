@@ -21,8 +21,13 @@ public class SessionService {
   ApplicationUserService applicationUserService;
 
   public Response authenticate(Login login) {
-    Optional<ApplicationUser> principal = applicationUserService.findByEmail(login.getEmail());
+    if (login == null) {
 
+      return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).build();
+
+    }
+
+    Optional<ApplicationUser> principal = applicationUserService.findByEmail(login.getEmail());
     try {
       if (principal.isPresent() && principal.get().getPassword().equals(login.getPassword())) {
         String token = Jwt
@@ -33,14 +38,13 @@ public class SessionService {
             .sign();
         return Response
             .ok(principal.get())
-            .cookie(new NewCookie("punchclock", token))
+            .cookie(new NewCookie("CoWorkSpace", token))
             .header("Authorization", "Bearer " + token)
             .build();
       }
     } catch (Exception e) {
       System.err.println("Couldn't validate password.");
     }
-
     return Response.status(Response.Status.FORBIDDEN).build();
   }
 }
