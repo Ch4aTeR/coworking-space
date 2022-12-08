@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
-import ch.zli.m223.model.ApplicationUser;
 import ch.zli.m223.model.Booking;
 import ch.zli.m223.service.BookingService;
 
@@ -26,7 +25,7 @@ public class BookingController {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Operation()
+  @Operation(summary = "Index all bookings.", description = "Returns a list of all bookings.")
   @RolesAllowed({ "Admin", "User", "Visitor" })
   public List<Booking> index() {
     return bookingService.findAll();
@@ -35,7 +34,7 @@ public class BookingController {
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  @Operation()
+  @Operation(summary = "Creates a new booking.", description = "Creates a new booking and returns the newly added booking.")
   @RolesAllowed({ "Admin", "User" })
   public Booking create(Booking booking) {
     return bookingService.createBooking(booking);
@@ -43,7 +42,7 @@ public class BookingController {
 
   @Path("/{id}")
   @DELETE
-  @Operation()
+  @Operation(summary = "Deletes a booking.", description = "Deletes a booking by its id.")
   @RolesAllowed({ "Admin" })
   public void delete(@PathParam("id") Long id) {
     bookingService.deleteBooking(id);
@@ -51,25 +50,25 @@ public class BookingController {
 
   @Path("/{id}")
   @PUT
-  @Operation()
+  @Operation(summary = "Updates a booking.", description = "Updates a booking by its id.")
   @RolesAllowed({ "Admin" })
-  public Booking update(@PathParam("id") Long id, Booking booking) {
+  public Booking update(@PathParam("id") Long id, Booking booking) {  
     return bookingService.updateBooking(id, booking);
   }
 
-  @Path("/{id}")
+  @Path("/{bookingId}/{isAccepted}")
   @PUT
-  @Operation()
+  @Operation(summary = "Handles bookings.", description = "Accepts or denies a booking by its id.")
   @RolesAllowed({ "Admin" })
-  public Booking handleBooking(@PathParam("id") Long id, Boolean isAccepted, Booking booking) {
-    return bookingService.handleBooking(id, isAccepted, booking);
+  public Booking handleBooking(@PathParam("bookingId") Long bookingId, @PathParam("isAccepted") Boolean isAccepted) {
+    return bookingService.handleBooking(bookingId, isAccepted);
   }
 
-  @Path("/{id}")
+  @Path("/{bookingId}/{userId}")
   @PUT
-  @Operation()
+  @Operation(summary = "Asignes a booking.", description = "Asignes a booking to a User.")
   @RolesAllowed({ "Admin" })
-  public Booking asignToUser(@PathParam("id") Long id, Booking booking, ApplicationUser applicationUser) {
-    return bookingService.asignToUser(id, booking, applicationUser);
+  public Booking asignToUser(@PathParam("bookingId") Long bookingId, @PathParam("userId") Long userId) {
+    return bookingService.asignToUser(bookingId, userId);
   }
 }

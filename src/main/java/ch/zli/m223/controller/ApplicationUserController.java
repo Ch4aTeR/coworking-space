@@ -27,7 +27,7 @@ public class ApplicationUserController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation()
+    @Operation(summary = "Index all users.", description = "Returns a list of all users.")
     @RolesAllowed({ "Admin" })
     public List<ApplicationUser> index() {
         return userService.findAll();
@@ -36,7 +36,7 @@ public class ApplicationUserController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Operation()
+    @Operation(summary = "Creates a new user. Also known as registration.", description = "Creates a new user and returns the newly added user.")
     @RolesAllowed({ "Admin", "Visitor" })
     public ApplicationUser create(ApplicationUser user) {
         return userService.createUser(user);
@@ -44,7 +44,7 @@ public class ApplicationUserController {
 
     @Path("/{id}")
     @DELETE
-    @Operation()
+    @Operation(summary = "Deletes an user.", description = "Deletes an user by its id.")
     @RolesAllowed({ "Admin" })
     public void delete(@PathParam("id") Long id) {
         userService.deleteUser(id);
@@ -52,33 +52,36 @@ public class ApplicationUserController {
 
     @Path("/{id}")
     @PUT
-    @Operation()
+    @Operation(summary = "Updates an user.", description = "Updates an user by its id.")
     @RolesAllowed({ "Admin" })
     public ApplicationUser update(@PathParam("id") Long id, ApplicationUser user) {
         return userService.updateUser(id, user);
     }
 
-    @Path("/{id}")
+    @Path("/{userId}/{newPassword}")
     @PUT
-    @Operation()
+    @Operation(summary = "Change Password.", description = "Changes the Password of the User by id.")
     @RolesAllowed({ "Admin", "User" })
-    public ApplicationUser changePassword(@PathParam("id") Long id, ApplicationUser user, String newPassword) {
-        return userService.changePassword(id, user, newPassword);
+    public ApplicationUser changePassword(@PathParam("userId") Long userId,
+            @PathParam("newPassword") String newPassword) {
+        return userService.changePassword(userId, newPassword);
     }
 
+    @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation()
+    @Operation(summary = "List bookings.", description = "Shows all bookings of user by id.")
     @RolesAllowed({ "User", "Admin" })
-    public List<ApplicationUser> getBookings(@PathParam("id") Long id, ApplicationUser user) {
-        return userService.getBookings(id, user);
+    public List<ApplicationUser> getBookings(@PathParam("id") Long userId) {
+        return userService.getBookings(userId);
     }
 
-    @Path("/{id}")
+    @Path("/{bookingId}")
     @PUT
-    @Operation()
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Cancel booking.", description = "Cancels a booking of user by id.")
     @RolesAllowed({ "User", "Admin" })
-    public Booking cancelBooking(Booking booking, @PathParam("id") Long id) {
-        return userService.cancelBooking(booking, id);
+    public Booking cancelBooking(@PathParam("bookingId") Long bookingId) {
+        return userService.cancelBooking(bookingId);
     }
 }

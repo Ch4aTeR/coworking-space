@@ -46,18 +46,21 @@ public class ApplicationUserService {
                 .findFirst();
     }
 
-    public ApplicationUser changePassword(Long id, ApplicationUser user, String newPassword){
-        user.setPassword(newPassword);
-        return entityManager.merge(user);
+    public ApplicationUser changePassword(Long userId, String newPassword){
+        var userEntity = entityManager.find(ApplicationUser.class, userId);
+        userEntity.setPassword(newPassword);
+        return entityManager.merge(userEntity);
     }
 
-    public List<ApplicationUser> getBookings(long id, ApplicationUser user){
-        var query = entityManager.createQuery("FROM ApplicationUser.bookings WHERE applicationUser = " + user, ApplicationUser.class);
-        return query.getResultList();
+    public List<ApplicationUser> getBookings(Long userId){
+        var userEntity = entityManager.find(ApplicationUser.class, userId);
+        userEntity.getBookings();
+       return (List<ApplicationUser>) entityManager.merge(userEntity);
     }
 
-    public Booking cancelBooking(Booking booking, long id){
-       booking.setIsAccepted(false);
-       return entityManager.merge(booking);
+    public Booking cancelBooking(Long bookingId){
+        var bookingEntity = entityManager.find(Booking.class, bookingId);
+        bookingEntity.setApplicationUser(null);
+       return entityManager.merge(bookingEntity);
     }
 }

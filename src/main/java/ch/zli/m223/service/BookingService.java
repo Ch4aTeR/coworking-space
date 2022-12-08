@@ -2,6 +2,7 @@ package ch.zli.m223.service;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 import ch.zli.m223.model.ApplicationUser;
 import ch.zli.m223.model.Booking;
 
+@ApplicationScoped
 public class BookingService {
     @Inject
     EntityManager entityManager;
@@ -37,14 +39,18 @@ public class BookingService {
     }
 
     @Transactional
-    public Booking handleBooking(Long id, boolean isAccepted, Booking booking) {
-        booking.setIsAccepted(isAccepted);
-        return entityManager.merge(booking);
+    public Booking handleBooking(Long bookingId, boolean isAccepted) {
+        var bookingEntity = entityManager.find(Booking.class, bookingId);
+        bookingEntity.setIsAccepted(isAccepted);
+        return entityManager.merge(bookingEntity);
     }
 
     @Transactional
-    public Booking asignToUser(Long id, Booking booking, ApplicationUser applicationUser){
-        booking.setApplicationUser(applicationUser);
-        return entityManager.merge(booking);
+    public Booking asignToUser(Long bookingId, Long userId) {
+        var bookingEntity = entityManager.find(Booking.class, bookingId);
+        var userEntity = entityManager.find(ApplicationUser.class, userId);
+        bookingEntity.setApplicationUser(userEntity);
+        return entityManager.merge(bookingEntity);
+
     }
 }
