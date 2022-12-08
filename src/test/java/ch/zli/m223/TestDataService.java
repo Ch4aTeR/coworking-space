@@ -48,6 +48,7 @@ public class TestDataService {
     firstUser.setPassword("123456789");
     firstUser.setName("Cedric");
     firstUser.setLastname("Markstaller");
+    //firstUser.setBookings();
     entityManager.persist(firstUser);
 
     var secondUser = new ApplicationUser();
@@ -61,7 +62,7 @@ public class TestDataService {
     thirdUser.setEmail("laura.horta@gmail.com");
     thirdUser.setPassword("lololilly");
     thirdUser.setName("Laura");
-    thirdUser.setLastname("Horta");
+    thirdUser.setLastname("Horta");    
     entityManager.persist(thirdUser);
   }
 }

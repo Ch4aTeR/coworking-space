@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import ch.zli.m223.model.ApplicationUser;
+import ch.zli.m223.model.Booking;
 
 @ApplicationScoped
 public class ApplicationUserService {
@@ -48,6 +49,15 @@ public class ApplicationUserService {
     public ApplicationUser changePassword(Long id, ApplicationUser user, String newPassword){
         user.setPassword(newPassword);
         return entityManager.merge(user);
+    }
 
+    public List<ApplicationUser> getBookings(long id, ApplicationUser user){
+        var query = entityManager.createQuery("FROM ApplicationUser.bookings WHERE applicationUser = " + user, ApplicationUser.class);
+        return query.getResultList();
+    }
+
+    public Booking cancelBooking(Booking booking, long id){
+       booking.setIsAccepted(false);
+       return entityManager.merge(booking);
     }
 }

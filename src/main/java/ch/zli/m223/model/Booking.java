@@ -25,6 +25,9 @@ public class Booking {
     @Column
     private LocalDate date;
 
+    @Column
+    private boolean isAccepted;
+
     @ManyToOne(optional = false)
     @Fetch(FetchMode.JOIN)
     private ApplicationUser applicationUser;
@@ -48,11 +51,27 @@ public class Booking {
         this.date = date;
       }
 
+      public boolean getIsAccepted(){
+        return isAccepted;
+      }
+
+      public void setIsAccepted(boolean isAccepted){
+        this.isAccepted = isAccepted;
+      }
+
       public BookingTime getBookingTime() {
         return bookingTime;
       }
     
       public void setBookingTime(BookingTime bookingTime) {
         this.bookingTime = bookingTime;
+      }
+
+      public ApplicationUser getApplicationUser() {
+        return applicationUser;
+      }
+    
+      public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
       }
 }

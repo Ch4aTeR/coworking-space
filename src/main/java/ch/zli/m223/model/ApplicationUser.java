@@ -17,17 +17,16 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @Entity
 @NamedQueries({
-  @NamedQuery(name = "ApplicationUser.findByEmail", query = "SELECT u FROM ApplicationUser u WHERE u.email = :email")
+    @NamedQuery(name = "ApplicationUser.findByEmail", query = "SELECT u FROM ApplicationUser u WHERE u.email = :email")
 })
 public class ApplicationUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(readOnly = true)
   private Long id;
-  
+
   @Column(nullable = false, unique = true)
   private String email;
 
@@ -39,9 +38,6 @@ public class ApplicationUser {
 
   @Column(nullable = false)
   private String lastname;
-
-  @Column(nullable = false)
-  private boolean isAdmin;
 
   @OneToMany(mappedBy = "applicationUser")
   @JsonIgnoreProperties("applicationUser")
@@ -79,20 +75,13 @@ public class ApplicationUser {
   public void setName(String name) {
     this.name = name;
   }
+
   public String getLastame() {
     return lastname;
   }
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
-  }
-
-  public boolean getIsAdmin() {
-    return isAdmin;
-  }
-
-  public void setIsAdmin(Boolean isAdmin) {
-    this.isAdmin = isAdmin;
   }
 
   public Set<Booking> getBookings() {
