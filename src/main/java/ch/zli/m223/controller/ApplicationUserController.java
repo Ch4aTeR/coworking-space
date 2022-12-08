@@ -19,67 +19,66 @@ import ch.zli.m223.model.ApplicationUser;
 import ch.zli.m223.model.Booking;
 import ch.zli.m223.service.ApplicationUserService;
 
-
 @Path("/users")
 public class ApplicationUserController {
-  
-  @Inject
-  ApplicationUserService userService;
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation()
-  @RolesAllowed({"Admin"})
-  public List<ApplicationUser> index() {
-      return userService.findAll();
-  }
+    @Inject
+    ApplicationUserService userService;
 
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Operation()
-  @RolesAllowed({"Admin", "Visitor"})
-  public ApplicationUser create(ApplicationUser user) {
-     return userService.createUser(user);
-  }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation()
+    @RolesAllowed({ "Admin" })
+    public List<ApplicationUser> index() {
+        return userService.findAll();
+    }
 
-  @Path("/{id}")
-  @DELETE
-  @Operation()
-  @RolesAllowed({"Admin"})
-  public void delete(@PathParam("id") Long id) {
-      userService.deleteUser(id);
-  }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation()
+    @RolesAllowed({ "Admin", "Visitor" })
+    public ApplicationUser create(ApplicationUser user) {
+        return userService.createUser(user);
+    }
 
-  @Path("/{id}")
-  @PUT
-  @Operation()
-  @RolesAllowed({"Admin"})
-  public ApplicationUser update(@PathParam("id") Long id, ApplicationUser user) {
-      return userService.updateUser(id, user);
-  }
+    @Path("/{id}")
+    @DELETE
+    @Operation()
+    @RolesAllowed({ "Admin" })
+    public void delete(@PathParam("id") Long id) {
+        userService.deleteUser(id);
+    }
 
-  @Path("/{id}")
-  @PUT
-  @Operation()
-  @RolesAllowed({"Admin", "User"})
-  public ApplicationUser changePassword(@PathParam("id") Long id, ApplicationUser user, String newPassword) {
-      return userService.changePassword(id, user, newPassword);
-  }
+    @Path("/{id}")
+    @PUT
+    @Operation()
+    @RolesAllowed({ "Admin" })
+    public ApplicationUser update(@PathParam("id") Long id, ApplicationUser user) {
+        return userService.updateUser(id, user);
+    }
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation()
-  @RolesAllowed({"User"})
-  public List<ApplicationUser> getBookings(@PathParam("id") Long id, ApplicationUser user) {
-      return userService.getBookings(id, user);
-  }
+    @Path("/{id}")
+    @PUT
+    @Operation()
+    @RolesAllowed({ "Admin", "User" })
+    public ApplicationUser changePassword(@PathParam("id") Long id, ApplicationUser user, String newPassword) {
+        return userService.changePassword(id, user, newPassword);
+    }
 
-  @Path("/{id}")
-  @PUT
-  @Operation()
-  @RolesAllowed({"User"})
-  public Booking cancelBooking(Booking booking, @PathParam("id") Long id) {
-      return userService.cancelBooking(booking, id);
-  }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation()
+    @RolesAllowed({ "User", "Admin" })
+    public List<ApplicationUser> getBookings(@PathParam("id") Long id, ApplicationUser user) {
+        return userService.getBookings(id, user);
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Operation()
+    @RolesAllowed({ "User", "Admin" })
+    public Booking cancelBooking(Booking booking, @PathParam("id") Long id) {
+        return userService.cancelBooking(booking, id);
+    }
 }

@@ -19,7 +19,7 @@ import ch.zli.m223.service.SessionService;
 @Tag(name = "Session", description = "Handling of sessions")
 @PermitAll
 public class SessionController {
-  
+
   @Inject
   SessionService sessionService;
 
