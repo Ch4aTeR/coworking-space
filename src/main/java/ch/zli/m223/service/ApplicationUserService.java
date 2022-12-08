@@ -40,7 +40,7 @@ public class ApplicationUserService {
 
     public Optional<ApplicationUser> findByEmail(String email) {
         return entityManager
-                .createQuery("SELECT ApplicationUser FROM ApplicationUser WHERE email = :email", ApplicationUser.class)
+                .createNamedQuery("ApplicationUser.findByEmail", ApplicationUser.class)
                 .setParameter("email", email)
                 .getResultStream()
                 .findFirst();

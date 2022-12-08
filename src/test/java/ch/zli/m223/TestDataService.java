@@ -14,7 +14,7 @@ import ch.zli.m223.model.BookingTime;
 import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.runtime.StartupEvent;
 
-@IfBuildProfile("test")
+@IfBuildProfile("dev")
 @ApplicationScoped
 public class TestDataService {
 

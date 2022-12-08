@@ -1,8 +1,17 @@
 # coworking-space Project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Its about a Coworking-Space where users can be booked. Visitors can see all the bookings for info. You can create an account as Visitor an dbecome an User. As User you can manage your own booking as well as cancel future bookings. You can change the password and reserve new bookings. The Admin has control over all the Users an Bookings. He can create, update an ddelete them individually.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+
+## Setup Project
+    
+Make sure that Docker Containers are running.
+The Quarkus extension has to be installed as well as the Dev Container extension.
+
+## Test Data
+
+The test data will automatically be loaded when you run the programm. If you want to add more testdata you can add them in /workspace/src/test/java/ch/zli/m223/TestDataService.java
 
 ## Running the application in dev mode
 
@@ -10,8 +19,6 @@ You can run your application in dev mode that enables live coding using:
 ```shell script
 ./mvnw compile quarkus:dev
 ```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
 ## Packaging and running the application
 
